@@ -25,7 +25,7 @@ define(function (require, exports, module) {
      * Connect to the backend nodejs domain
      */
     var domain = new NodeDomain(DOMAIN_NAME, ExtensionUtils.getModulePath(module, "node/processDomain"));
-    
+
     domain.on("output", function(info, data) {
         Panel.write(data);
     });
@@ -59,18 +59,18 @@ define(function (require, exports, module) {
             } else {
                 dir = ProjectManager.getProjectRoot().fullPath;
             }
-            
+
             ConnectionManager.exit();
             Panel.show(command);
             Panel.clear();
-            
+
             domain.exec("startProcess", command, dir)
                 .done(function(exitCode) {
                     Panel.write("Program exited with status code of " + exitCode + ".");
                 }).fail(function(err) {
                     Panel.write("Error inside brackets-nodejs' processes occured: \n" + err);
                 });
-            
+
             // Store the last command and cwd
             this.last.command = command;
             this.last.cwd = dir;
@@ -91,7 +91,7 @@ define(function (require, exports, module) {
 
         },
 
-        newNode: function () {
+        newNode: function (hardcodedDoc) {
 
             var nodeBin = prefs.get("node-bin"),
                 v8flags = prefs.get("v8-flags");
@@ -103,11 +103,18 @@ define(function (require, exports, module) {
                 nodeBin = '"' + nodeBin + '"';
             }
 
-            // Current document
-            var doc = DocumentManager.getCurrentDocument();
-            if(doc === null || !doc.file.isFile) return;
+            if(hardcodedDoc === undefined){
+                // Current document
+                var doc = DocumentManager.getCurrentDocument();
+                if(doc === null || !doc.file.isFile) return;
 
-            this.new(nodeBin + ' ' + v8flags + ' ' + ' "' + doc.file.fullPath + '"');
+                doc = doc.file.fullPath;
+            }else{
+                doc = hardcodedDoc;
+            }
+
+
+            this.new(nodeBin + ' ' + v8flags + ' ' + ' "' + doc + '"');
 
         },
 
@@ -333,7 +340,7 @@ define(function (require, exports, module) {
 
                     // Should it be saved to package.json
                     var s = save.checked ? "--save" : "";
-                    
+
                     // Should it be saved as a devDependency
                     if(save.checked && saveDev.checked) {
                         s += "-dev";
@@ -409,6 +416,7 @@ define(function (require, exports, module) {
      * Menu
      */
     var RUN_CMD_ID = "brackets-nodejs.run",
+        RUN_CMD_ID_HB = "brackets-nodejs.run",
         EXEC_CMD_ID = "brackets-nodejs.exec",
         RUN_NPM_START_CMD_ID = "brackets-nodejs.run_npm_start",
         RUN_NPM_STOP_CMD_ID = "brackets-nodejs.run_npm_stop",
@@ -416,8 +424,11 @@ define(function (require, exports, module) {
         RUN_NPM_INSTALL_CMD_ID = "brackets-nodejs.run_npm_install",
         INSTALL_CMD_ID = "brackets-nodejs.install",
         CONFIG_CMD_ID = "brackets-nodejs.config";
-    CommandManager.register("Run", RUN_CMD_ID, function () {
+    CommandManager.register("Runme", RUN_CMD_ID, function () {
         ConnectionManager.newNode();
+    });
+    CommandManager.register("Build HB UI", RUN_CMD_ID_HB, function () {
+        ConnectionManager.newNode('~/Documents/workspace/cms/git/homebase_proper/utils/webui/build/build.js');
     });
     CommandManager.register("Execute command", EXEC_CMD_ID, function() {
         Dialog.exec.show();
@@ -443,6 +454,8 @@ define(function (require, exports, module) {
     });
 
     NodeMenu.addMenuItem(RUN_CMD_ID, "Alt-N");
+    NodeMenu.addMenuItem(RUN_CMD_ID_HB, "F9");
+    NodeMenu.addMenuDivider();
     NodeMenu.addMenuItem(EXEC_CMD_ID);
     NodeMenu.addMenuDivider();
     NodeMenu.addMenuItem(RUN_NPM_START_CMD_ID);
