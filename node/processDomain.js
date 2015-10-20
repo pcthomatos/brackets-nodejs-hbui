@@ -7,27 +7,33 @@
         child = null,
         DOMAIN_NAME = "brackets-nodejs-hbui";
 
-    function cmdStartProcess(command, cwd, cb) {
+    function cmdStartProcess(command, nodePath, cb) {
         if(child !== null) {
             treekill(child.pid);
         }
 
-        child = exec(command, {
-            cwd: cwd,
-            silent: true
-        });
+        process.env.PATH = process.env.PATH + ':' + nodePath.replace(/\/node$/, '/');
+
+        child = exec(command, {cwd: undefined,env: process.env});
+
+        var red   = '\\x1B[31m',
+            green = '\\x1B[32m',
+            reset = '\\x1B[0m';
 
         // Send data to the client
         var send = function(data) {
+            data = data.toString().replace(/\\*\x1B\[/g, "\\x1B[");
 
-            // Support for ansi colors and text decorations
+            domain.emitEvent(DOMAIN_NAME, "output", green + data + reset);
+        },
+        sendError = function(data) {
             data = data.toString().replace(/\x1B\[/g, "\\x1B[");
 
-            domain.emitEvent(DOMAIN_NAME, "output", data);
+            domain.emitEvent(DOMAIN_NAME, "output", red + data + reset);
         };
 
         child.stdout.on("data", send);
-        child.stderr.on("data", send);
+        child.stderr.on("data", sendError);
 
         child.on("exit", function(code) {
             cb(null, code);

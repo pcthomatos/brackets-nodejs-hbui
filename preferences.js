@@ -1,10 +1,10 @@
 define(function main(require, exports, module) {
     var PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
-        prefs = PreferencesManager.getExtensionPrefs("brackets-nodejs");
+        prefs = PreferencesManager.getExtensionPrefs("brackets-nodejs-HBUI");
 
     // Default settings
     prefs.definePreference("node-bin", "string", "");
-    prefs.definePreference("npm-bin", "string", "");
+    prefs.definePreference("hb-ui", "string", "");
     prefs.definePreference("autoscroll", "boolean", true);
     prefs.definePreference("v8-flags", "string", "");
 
@@ -13,10 +13,10 @@ define(function main(require, exports, module) {
         prefs.set("node-bin", localStorage["node-node"]);
         localStorage.removeItem("node-node");
     }
-    
-    if("node-npm" in localStorage) {
-        prefs.set("npm-bin", localStorage["node-npm"]);
-        localStorage.removeItem("node-npm");
+
+    if("hb-ui" in localStorage) {
+        prefs.set("hb-ui", localStorage["hb-ui"]);
+        localStorage.removeItem("hb-ui");
     }
 
     if("v8-flags" in localStorage) {
