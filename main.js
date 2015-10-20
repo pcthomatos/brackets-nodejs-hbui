@@ -424,11 +424,11 @@ define(function (require, exports, module) {
         RUN_NPM_INSTALL_CMD_ID = "brackets-nodejs.run_npm_install",
         INSTALL_CMD_ID = "brackets-nodejs.install",
         CONFIG_CMD_ID = "brackets-nodejs.config";
-/*    CommandManager.register("Run", RUN_CMD_ID, function () {
+    CommandManager.register("Run", RUN_CMD_ID, function () {
         ConnectionManager.newNode();
     });
-*/
-CommandManager.register("Build HB UI", RUN_CMD_ID_HB, function () {
+
+    CommandManager.register("Build HB UI", RUN_CMD_ID_HB, function () {
         ConnectionManager.newNode('~/Documents/workspace/cms/git/homebase_proper/utils/webui/build/build.js');
     });
     CommandManager.register("Execute command", EXEC_CMD_ID, function() {
@@ -454,8 +454,8 @@ CommandManager.register("Build HB UI", RUN_CMD_ID_HB, function () {
 
     });
 
-    NodeMenu.addMenuItem(RUN_CMD_ID, "Alt-N");
-    NodeMenu.addMenuItem(RUN_CMD_ID_HB);
+//    NodeMenu.addMenuItem(RUN_CMD_ID, "Alt-N");
+    NodeMenu.addMenuItem(RUN_CMD_ID_HB, 'F9');
     NodeMenu.addMenuDivider();
     NodeMenu.addMenuItem(EXEC_CMD_ID);
     NodeMenu.addMenuDivider();
