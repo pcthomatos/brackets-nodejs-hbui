@@ -1,11 +1,11 @@
 (function () {
     "use strict";
-    
+
     var treekill = require("treekill"),
         exec = require("child_process").exec,
         domain = null,
         child = null,
-        DOMAIN_NAME = "brackets-nodejs";
+        DOMAIN_NAME = "brackets-nodejs-hbui";
 
     function cmdStartProcess(command, cwd, cb) {
         if(child !== null) {
@@ -22,7 +22,7 @@
 
             // Support for ansi colors and text decorations
             data = data.toString().replace(/\x1B\[/g, "\\x1B[");
-            
+
             domain.emitEvent(DOMAIN_NAME, "output", data);
         };
 
@@ -37,13 +37,13 @@
             cb(err);
         });
     }
-    
+
     function cmdStopProcess() {
         if(child !== null) {
             treekill(child.pid);
         }
     }
-    
+
     function init(domainManager) {
         domain = domainManager;
 
@@ -53,7 +53,7 @@
                 minor: 0
             });
         }
-        
+
         domainManager.registerCommand(
             DOMAIN_NAME,
             "startProcess",
@@ -71,7 +71,7 @@
                 }
             ]
         );
-        
+
         domainManager.registerCommand(
             DOMAIN_NAME,
             "stopProcess",
@@ -80,7 +80,7 @@
             "Stops the process if one is already started",
             []
         );
-        
+
         domainManager.registerEvent(
             DOMAIN_NAME,
             "output",
@@ -92,7 +92,7 @@
             ]
         );
     }
-    
+
     exports.init = init;
 
 }());

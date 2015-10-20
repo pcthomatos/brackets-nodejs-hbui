@@ -18,7 +18,7 @@ define(function (require, exports, module) {
         NODE_INSTALL_DIALOG_ID = "node-install-dialog",
         NODE_EXEC_DIALOG_ID = "node-exec-dialog",
         LS_PREFIX = "node-",
-        DOMAIN_NAME = "brackets-nodejs",
+        DOMAIN_NAME = "brackets-nodejs-hbui",
         scrollEnabled = prefs.get("autoscroll");
 
     /**
