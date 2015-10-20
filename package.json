@@ -1,9 +1,9 @@
 {
-  "name": "brackets-nodejs",
-  "title": "Node.js bindings",
+  "name": "brackets-nodejs-hbui",
+  "title": "Node.js bindings for HB UI",
   "description": "Execute node scripts and common npm commands inside Brackets.",
-  "homepage": "https://github.com/Acconut/brackets-nodejs",
-  "version": "1.4.1",
+  "homepage": "https://github.com/pcthomatos/brackets-nodejs-hbui",
+  "version": "1.4.2",
   "license": "MIT",
   "engines": {
     "brackets": ">=0.44.0"

@@ -424,7 +424,7 @@ define(function (require, exports, module) {
         RUN_NPM_INSTALL_CMD_ID = "brackets-nodejs.run_npm_install",
         INSTALL_CMD_ID = "brackets-nodejs.install",
         CONFIG_CMD_ID = "brackets-nodejs.config";
-    CommandManager.register("Runme", RUN_CMD_ID, function () {
+    CommandManager.register("Run", RUN_CMD_ID, function () {
         ConnectionManager.newNode();
     });
     CommandManager.register("Build HB UI", RUN_CMD_ID_HB, function () {
