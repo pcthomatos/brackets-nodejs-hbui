@@ -454,7 +454,7 @@ define(function (require, exports, module) {
     });
 
     NodeMenu.addMenuItem(RUN_CMD_ID, "Alt-N");
-    NodeMenu.addMenuItem(RUN_CMD_ID_HB, "F9");
+    NodeMenu.addMenuItem(RUN_CMD_ID_HB);
     NodeMenu.addMenuDivider();
     NodeMenu.addMenuItem(EXEC_CMD_ID);
     NodeMenu.addMenuDivider();
