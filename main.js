@@ -28,7 +28,8 @@ define(function (require, exports, module) {
     });
 
     var buildHB = function(command){
-            var nodeBin = prefs.get("node-bin");
+            var nodeBin = prefs.get("node-bin"),
+                command = command.replace(/\/\/+/, '/');
 
             if(nodeBin === "") {
                 nodeBin = "node";
@@ -211,11 +212,18 @@ define(function (require, exports, module) {
      * Menu
      */
     var RUN_CMD_ID_HB = "brackets-nodejs.run",
+        UPDATE_CMD_ID_HB = "brackets-nodejs.update",
         CONFIG_CMD_ID = "brackets-nodejs.config";
 
     CommandManager.register("Build HB UI", RUN_CMD_ID_HB, function () {
-        console.log(prefs)
-        buildHB(prefs.get("hb-ui"));
+        console.log(prefs);
+        buildHB(prefs.get("hb-ui") + '/build.sh');
+    });
+
+    CommandManager.register("Update Bespoke Manifest", UPDATE_CMD_ID_HB, function () {
+        console.log(prefs);
+        console.log(prefs.get("hb-ui"));
+        buildHB(prefs.get("hb-ui") + '/updateBespokeManifest.sh');
     });
 
     CommandManager.register("Configuration...", CONFIG_CMD_ID, function () {
@@ -224,6 +232,7 @@ define(function (require, exports, module) {
     });
 
     NodeMenu.addMenuItem(RUN_CMD_ID_HB, 'F9');
+    NodeMenu.addMenuItem(UPDATE_CMD_ID_HB, 'F8');
     NodeMenu.addMenuDivider();
     NodeMenu.addMenuItem(CONFIG_CMD_ID);
 
